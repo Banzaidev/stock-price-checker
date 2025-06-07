@@ -1,8 +1,9 @@
 'use strict';
-module.exports = function (app) {
+module.exports = function (app,db) {
 
   app.route('/api/stock-prices')
     .get(async (req, res) => {
+/*       db.create({symbol: 'test'}) */
       let symbol = req.query.stock
       let isLike = req.query.like
       if((isLike != 'true' && isLike != 'false') && isLike != undefined){

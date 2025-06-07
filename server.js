@@ -3,6 +3,9 @@ require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const mongoose = require('mongoose')
+const connectDB = require('./config/db.js')
+const stockSchema = require('./schemas/stock.schema.js')
 
 const apiRoutes = require('./routes/api.js');
 const fccTestingRoutes = require('./routes/fcctesting.js');
@@ -10,6 +13,9 @@ const runner = require('./test-runner');
 
 const app = express();
 
+app.use(async (req,res,next) => {
+  await connectDB().then(() => next()).catch((error) => res.status(503).send(`Database connection error: ${error}`))
+})
 app.use('/public', express.static(process.cwd() + '/public'));
 
 app.use(cors({origin: '*'})); //For FCC testing purposes only
@@ -25,9 +31,10 @@ app.route('/')
 
 //For FCC testing purposes
 fccTestingRoutes(app);
+const Stock = mongoose.model('Stock', stockSchema)
 
 //Routing for API 
-apiRoutes(app);  
+apiRoutes(app,Stock);  
     
 //404 Not Found Middleware
 app.use(function(req, res, next) {
