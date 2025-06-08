@@ -1,4 +1,7 @@
 'use strict';
+
+const bcrypt = require('bcrypt');
+
 module.exports = function (app,db) {
 
   app.route('/api/stock-prices')
@@ -18,8 +21,22 @@ module.exports = function (app,db) {
       }
 
       if (isLike == 'true'){
-        data.stockData.likes =  data.stockData.likes + 1
-        await db.findOneAndUpdate({"symbol": symbol}, {"likes.number_likes": data.stockData.likes})
+        const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress
+        let isIPinDB = false
+        for(const hashedIP of doc.likes.ip){
+          const match = await bcrypt.compare(ip,hashedIP)
+          if(match){
+            isIPinDB = true
+            break
+          }
+        }
+        if(!isIPinDB){
+          data.stockData.likes =  data.stockData.likes + 1
+          let ips = doc.likes.ip
+          ips.push(await bcrypt.hash(ip,10))
+          await db.findOneAndUpdate({"symbol": symbol}, {"likes.number_likes": data.stockData.likes, "likes.ip":ips})
+        }
+        
       }
       res.json(data)
     });
