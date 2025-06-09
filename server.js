@@ -4,6 +4,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose')
+const helmet = require('helmet')
 const connectDB = require('./config/db.js')
 const stockSchema = require('./schemas/stock.schema.js')
 
@@ -12,7 +13,16 @@ const fccTestingRoutes = require('./routes/fcctesting.js');
 const runner = require('./test-runner');
 
 const app = express();
-
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        "script-src": ["'self'"],
+        "style-src":["'self'"]
+      },
+    },
+  }),
+);
 app.use(async (req,res,next) => {
   await connectDB().then(() => next()).catch((error) => res.status(503).send(`Database connection error: ${error}`))
 })
