@@ -1,3 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+*{
+   font-family: "Open Sans", sans-serif;
+}
 #userstories {
   margin-left: 5%;
   margin-top: 5%;
@@ -9,14 +13,95 @@
 
 #testui {
   margin-left: 5%;
+  display: grid;
+  grid-template-rows: auto auto;
+  grid-template-columns: auto auto;
+
+}
+#single-like{
+  grid-row-start: 1;
+  grid-row-end: 2;
+
+}
+#double-like{
+  grid-row-start: 2;
+  grid-row-end: 3;
+}
+#jsonResult{
+  grid-column-start: 2;
+  grid-column-end: 3;
+  grid-row-start: 1;
+  grid-row-end: 3;
+  justify-content: center;
+}
+input[name='stock']{
+  border-radius: 3px;
+  border-style: none;
+  background-color: #85c6eb;
+  color: black;
+  font-weight: 600;
+  padding: 10px;
+}
+button[type='submit']{
+  border-radius: 3px;
+  cursor: pointer;
+  margin-top: 2%;
+  border-style: none;
+  background-color: #979eba;
+  font-weight: 600;
+  padding: 10px;
+}
+button[type="submit"]:hover{
+  background-color: #cf1f33;
 }
 
+.emoji-label{
+  cursor: pointer;
+  font-size: larger;
+}
+input[type='checkbox']:hover + .emoji-label::before{
+  content: '🩷';
+}
+.emoji-label::before{
+  content: '🩶';
+}
+input[type='checkbox']{
+  appearance: none;
+}
+input[type='checkbox']:checked + .emoji-label::before{
+  content: '🩷';
+}
+#jsonResult{
+  margin-top: 5%;
+}
 .text-align-left {
   text-align: left;
 }
 
 input[type='text'] {
-  width: 100px;
+  width: 27%;
+}
+#single{
+  width: 60%;
+}
+
+#userstories{
+  display: grid;
+  grid-template-rows: auto;
+  grid-template-columns: auto auto;
+  justify-items: center;
+}
+#usage-example{
+  margin: 0;
+  padding: 0;
+
+
+}
+
+#return-example{
+  margin: 0;
+  padding: 0;
+  max-width: 50%;
 }
 
 .m-50 {
@@ -25,4 +110,9 @@ input[type='text'] {
 
 .mt-200 {
   margin-top: 200px;
+}
+
+header{
+  text-align: center;
+  margin-top: 10px
 }
